@@ -19,8 +19,10 @@ const row = (bill) => {
     `;
 }
 
+
 const rows = (data) => {
   let dataArray = [];
+
   if (data) {
     dataArray = data.sort(function (a, b) {
       let dateA = new Date(a.date),
@@ -28,7 +30,10 @@ const rows = (data) => {
       return dateB - dateA;
     });
   }
-  return (data && data.length) ? data.map(bill => row(bill)).join("") : "";
+
+  return (data && data.length) 
+  ? data.map(bill => row(bill)).join("") 
+  : "";
 }
 
 export default ({
