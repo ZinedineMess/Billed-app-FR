@@ -28,6 +28,7 @@ export default () => {
                   <div class="col-half">
                     <label for="expense-name" class="bold-label">Nom de la dépense</label>
                     <input type="text" class="form-control blue-border" data-testid="expense-name" placeholder="Vol Paris Londres" />
+                    <div class="hideErrorMessage" id="errorExpenseName">Vous devez entrer au moins 5 caractères.</div>
                   </div>
                   <div class="col-half">
                     <label for="datepicker" class="bold-label">Date</label>
@@ -56,6 +57,7 @@ export default () => {
                   <div class="col-half">
                     <label for="file" class="bold-label">Justificatif</label>
                     <input required type="file" class="form-control blue-border" data-testid="file" />
+                    <div class="hideErrorMessage" id="errorFileType">Le justificatif à fournir doit être au format "jpg", "jpeg" ou "png".</div>
                   </div>
                 </div>
             </div>

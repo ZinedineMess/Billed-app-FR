@@ -3,13 +3,13 @@
 }
 
 .col-half {
-  margin:auto;
+  margin: auto;
   width: 75%;
   margin-top: 16px;
 }
 
 .col-half-row {
-  display:flex;
+  display: flex;
   width: 75%;
   margin-left: 20px;
   margin-top: 16px;
@@ -48,16 +48,31 @@ label {
   margin-top: 50px;
 }
 
-textarea, input, select {
+textarea,
+input,
+select {
   color: #0E5AE5 !important;
   opacity: 0.7 !important;
 }
 
-textarea:focus, input:focus, select:focus {
+textarea:focus,
+input:focus,
+select:focus {
   color: #0E5AE5 !important;
   opacity: 1 !important;
 }
 
 *[placeholder] {
   color: #0E5AE5 !important;
+}
+
+.hideErrorMessage {
+  display: none;
+}
+
+#errorFileType,
+#errorExpenseName {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: red;
 }
