@@ -82,6 +82,11 @@ export default class {
     this.document = document;
     this.onNavigate = onNavigate;
     this.firestore = firestore;
+    /**
+     * State of each list 
+     * if it's open = true, 
+     * if it's closed = false
+     */
     this.listStatusState = {
       isOpen1: false,
       isOpen2: false,
@@ -163,6 +168,8 @@ export default class {
 
   handleShowTickets(e, bills, index) {
     if (this.index === undefined || this.index !== index) this.index = index;
+
+    // if the list is open, its status changes to 'true' and we execute the code
     if (this.listStatusState[`isOpen${index}`]) {
       $(`#arrow-icon${this.index}`).css({
         transform: 'rotate(0deg)'
@@ -181,6 +188,7 @@ export default class {
       $(`#open-bill${bill.id}`).click((e) => this.handleEditTicket(e, bill, bills));
     });
 
+    // if none of the lists is open, the big icon appears on the right
     if (!this.listStatusState.isOpen1 && !this.listStatusState.isOpen2 && !this.listStatusState.isOpen3) {
       $('.dashboard-right-container div').html(`
         <div id='big-billed-icon'> ${BigBilledIcon} </div>

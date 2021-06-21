@@ -19,21 +19,26 @@ const row = (bill) => {
     `;
 }
 
-
 const rows = (data) => {
   let dataArray = [];
 
+  /**
+   * descending sort function
+   * ex : 
+   * 2012 - 2013 = -1
+   * 2012 - 2012 = 0
+   * 2013 - 2012 = 1
+   * to sort in descending order
+   */
   if (data) {
     dataArray = data.sort(function (a, b) {
-      let dateA = new Date(a.date),
-        dateB = new Date(b.date);
-      return dateB - dateA;
+      return new Date(b.date) - new Date(a.date);
     });
   }
 
-  return (data && data.length) 
-  ? data.map(bill => row(bill)).join("") 
-  : "";
+  return (data && data.length) ?
+    data.map(bill => row(bill)).join("") :
+    "";
 }
 
 export default ({

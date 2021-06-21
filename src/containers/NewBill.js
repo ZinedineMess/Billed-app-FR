@@ -28,9 +28,15 @@ export default class NewBill {
 
   handleChangeFile = (e) => {
     const file = this.document.querySelector(`input[data-testid='file']`).files[0];
+    // Added image format check provided
     const extensionCheck = /(png|jpg|jpeg)/g;
     const extension = file.name.split('.').pop();
 
+    /**
+     * if the extension is valid, we accept and add the class 'hideErrorMessage',
+     * otherwise we empty the entry, and remove the class 'hideErrorMessage'
+     * which will show the error message
+     */
     if (extension.toLowerCase().match(extensionCheck)) {
       document.getElementById('errorFileType').classList.add('hideErrorMessage');
       const filePath = e.target.value.split(/\\/g);
@@ -55,7 +61,12 @@ export default class NewBill {
     e.preventDefault();
     const email = JSON.parse(localStorage.getItem('user')).email;
 
-    if (e.target.querySelector(`input[data-testid='expense-name']`).value.length > 5) {
+    /**
+     * if the value of the input is greater than 5 characters, we accept and add the class 'hideErrorMessage',
+     * otherwise we empty the entry and remove the 'hideErrorMessage' class
+     * which will show the error message
+     */
+    if (e.target.querySelector(`input[data-testid='expense-name']`).value.trim().length > 5) {
       document.getElementById('errorExpenseName').classList.add('hideErrorMessage');
 
       const bill = {
