@@ -11,21 +11,51 @@ import {
 } from "../fixtures/bills.js";
 import {
   ROUTES,
+  ROUTES_PATH
 } from "../constants/routes";
+import Router from "../app/Router";
 import Bills from "../containers/Bills.js";
 import firebase from "../__mocks__/firebase";
+import Firestore from "../app/Firestore";
 
 describe('Given I am connected as an employee', () => {
   describe('When I am on Bills Page', () => {
     test('Then bill icon in vertical layout should be highlighted', () => {
-      // build user interface
-      const html = BillsUI({
-        data: []
+      // Mock - parameters for bdd Firebase & data fetching
+      jest.mock("../app/Firestore");
+      Firestore.bills = () => ({
+        bills,
+        get: jest.fn().mockResolvedValue()
       });
-      console.log(html);
-      document.body.innerHTML = html;
 
-      //to-do write expect expression
+      Object.defineProperty(window, "localStorage", {
+        value: localStorageMock,
+      });
+
+      window.localStorage.setItem(
+        "user",
+        JSON.stringify({
+          type: "Employee",
+        })
+      );
+
+      // Routing variable
+      const pathname = ROUTES_PATH["Bills"];
+
+      // build div DOM
+      Object.defineProperty(window, "location", {
+        value: {
+          hash: pathname
+        }
+      });
+      document.body.innerHTML = `<div id="root"></div>`;
+
+      // Router init to get actives CSS classes
+      Router();
+
+      expect(
+        screen.getByTestId("icon-window").classList.contains("active-icon")
+      ).toBe(true);
     });
 
     test('Then bills should be ordered from earliest to latest', () => {
