@@ -2,21 +2,43 @@ import {
   screen,
   fireEvent
 } from "@testing-library/dom";
+
 import {
   localStorageMock
 } from "../__mocks__/localStorage.js";
+
+import Bills from "../containers/Bills.js";
 import BillsUI from "../views/BillsUI.js";
 import {
   bills
 } from "../fixtures/bills.js";
+
 import {
   ROUTES,
   ROUTES_PATH
 } from "../constants/routes";
 import Router from "../app/Router";
-import Bills from "../containers/Bills.js";
+
 import firebase from "../__mocks__/firebase";
 import Firestore from "../app/Firestore";
+
+// LocalStorage - Employee
+Object.defineProperty(window, "localStorage", {
+  value: localStorageMock,
+});
+window.localStorage.setItem(
+  "user",
+  JSON.stringify({
+    type: "Employee",
+  })
+);
+
+// Init onNavigate
+const onNavigate = (pathname) => {
+  document.body.innerHTML = ROUTES({
+    pathname
+  });
+};
 
 describe('Given I am connected as an employee', () => {
   describe('When I am on Bills Page', () => {
@@ -27,17 +49,6 @@ describe('Given I am connected as an employee', () => {
         bills,
         get: jest.fn().mockResolvedValue()
       });
-
-      Object.defineProperty(window, "localStorage", {
-        value: localStorageMock,
-      });
-
-      window.localStorage.setItem(
-        "user",
-        JSON.stringify({
-          type: "Employee",
-        })
-      );
 
       // Routing variable
       const pathname = ROUTES_PATH["Bills"];
@@ -112,27 +123,12 @@ describe('Given I am connected as an employee', () => {
   describe('Given I am connected as Employee and I am on Bills page', () => {
     describe('When I click on the New Bill button', () => {
       test('Then, it should render NewBill page', () => {
-        Object.defineProperty(window, 'localStorage', {
-          value: localStorageMock,
-        });
-        window.localStorage.setItem(
-          'user',
-          JSON.stringify({
-            type: 'Employee',
-          })
-        );
 
         // build user interface
         const html = BillsUI({
           data: []
         });
         document.body.innerHTML = html;
-
-        const onNavigate = (pathname) => {
-          document.body.innerHTML = ROUTES({
-            pathname
-          });
-        };
 
         // Init firestore
         const firestore = null;
@@ -161,27 +157,11 @@ describe('Given I am connected as an employee', () => {
   // handleClickIconEye for container/Bills.js
   describe('When I click on the icon eye', () => {
     test('A modal should open', () => {
-      Object.defineProperty(window, 'localStorage', {
-        value: localStorageMock,
-      });
-      window.localStorage.setItem(
-        'user',
-        JSON.stringify({
-          type: 'Employee',
-        })
-      );
-
       // build user interface
       const html = BillsUI({
         data: bills
       });
       document.body.innerHTML = html;
-
-      const onNavigate = (pathname) => {
-        document.body.innerHTML = ROUTES({
-          pathname
-        });
-      };
 
       // Init firestore
       const firestore = null;
