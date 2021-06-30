@@ -65,6 +65,7 @@ describe('Given I am connected as an employee', () => {
       Router();
 
       expect(
+        // "icon-window" must contain the class "active-icon"
         screen.getByTestId("icon-window").classList.contains("active-icon")
       ).toBe(true);
     });
@@ -86,6 +87,8 @@ describe('Given I am connected as an employee', () => {
       // Filter by date
       const antiChrono = (a, b) => (a < b ? 1 : -1);
       const datesSorted = [...dates].sort(antiChrono);
+
+      // dates must equal datesSorted
       expect(dates).toEqual(datesSorted);
     });
   });
@@ -100,6 +103,7 @@ describe('Given I am connected as an employee', () => {
       });
       document.body.innerHTML = html;
 
+      // screen should show Loading
       expect(screen.getAllByText('Loading...')).toBeTruthy();
     });
   });
@@ -115,6 +119,7 @@ describe('Given I am connected as an employee', () => {
       });
       document.body.innerHTML = html;
 
+      // screen should show Erreur
       expect(screen.getAllByText('Erreur')).toBeTruthy();
     });
   });
@@ -132,6 +137,7 @@ describe('Given I am connected as an employee', () => {
 
         // Init firestore
         const firestore = null;
+
         // Init Bills
         const allBills = new Bills({
           document,
@@ -149,6 +155,7 @@ describe('Given I am connected as an employee', () => {
         billBtn.addEventListener('click', handleClickNewBill);
         fireEvent.click(billBtn);
 
+        // screen should show Envoyer une note de frais
         expect(screen.getAllByText('Envoyer une note de frais')).toBeTruthy();
       });
     });
@@ -188,8 +195,10 @@ describe('Given I am connected as an employee', () => {
       eye.addEventListener('click', handleClickIconEye);
       fireEvent.click(eye);
 
+      // handleClickIconEye function must be called
       expect(handleClickIconEye).toHaveBeenCalled();
       const modale = document.getElementById('modaleFile');
+      // The modal must be present
       expect(modale).toBeTruthy();
     });
   });
@@ -204,7 +213,9 @@ describe("Given I am a user connected as Employee", () => {
       // Get bills and the new bill
       const bills = await firebase.get();
 
+      // getSpy must have been called once
       expect(getSpy).toHaveBeenCalledTimes(1);
+      // The number of bills must be 4
       expect(bills.data.length).toBe(4);
     });
 
@@ -219,8 +230,8 @@ describe("Given I am a user connected as Employee", () => {
       });
       document.body.innerHTML = html;
 
-      // await for response
       const message = await screen.getByText(/Erreur 404/);
+      // wait for the error message 400
       expect(message).toBeTruthy();
     });
 
@@ -235,8 +246,8 @@ describe("Given I am a user connected as Employee", () => {
       });
       document.body.innerHTML = html;
 
-      // await for response
       const message = await screen.getByText(/Erreur 500/);
+      // wait for the error message 400
       expect(message).toBeTruthy();
     });
   });
