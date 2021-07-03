@@ -1,3 +1,4 @@
 node_modules
+npm-global/
 coverage
 *.DS_Store

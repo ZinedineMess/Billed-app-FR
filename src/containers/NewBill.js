@@ -42,20 +42,25 @@ export default class NewBill {
       const filePath = e.target.value.split(/\\/g);
       const fileName = filePath[filePath.length - 1];
 
-      this.firestore
-        .storage
-        .ref(`justificatifs/${fileName}`)
-        .put(file)
-        .then(snapshot => snapshot.ref.getDownloadURL())
-        .then(url => {
-          this.fileUrl = url
-          this.fileName = fileName
-        });
+      this.handleFirestoreStorage(fileName, file);
     } else {
       document.getElementById('errorFileType').classList.remove('hideErrorMessage');
       this.document.querySelector(`input[data-testid='file']`).value = null;
     };
   }
+
+  handleFirestoreStorage = (fileName, file) => {
+    if (this.firestore) {
+      this.firestore.storage
+        .ref(`justificatifs/${fileName}`)
+        .put(file)
+        .then((snapshot) => snapshot.ref.getDownloadURL())
+        .then((url) => {
+          this.fileUrl = url;
+          this.fileName = fileName;
+        });
+    }
+  };
 
   handleSubmit = (e) => {
     e.preventDefault();
@@ -66,7 +71,7 @@ export default class NewBill {
      * otherwise we empty the entry and remove the 'hideErrorMessage' class
      * which will show the error message
      */
-    if (e.target.querySelector(`input[data-testid='expense-name']`).value.trim().length > 5) {
+    if (e.target.querySelector(`input[data-testid='expense-name']`).value.trim().length > 5 && document.getElementById('errorFileType').classList.contains('hideErrorMessage')) {
       document.getElementById('errorExpenseName').classList.add('hideErrorMessage');
 
       const bill = {
