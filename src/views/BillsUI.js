@@ -20,8 +20,6 @@ const row = (bill) => {
 }
 
 const rows = (data) => {
-  let dataArray = [];
-
   /**
    * descending sort function
    * ex : 
@@ -30,15 +28,14 @@ const rows = (data) => {
    * 2013 - 2012 = 1
    * to sort in descending order
    */
-  if (data) {
-    dataArray = data.sort(function (a, b) {
+  if (data && data.length) {
+    data.sort(function (a, b) {
       return new Date(b.date) - new Date(a.date);
     });
+    return data.map(bill => row(bill)).join("");
   }
 
-  return (data && data.length) ?
-    data.map(bill => row(bill)).join("") :
-    "";
+  return "";
 }
 
 export default ({

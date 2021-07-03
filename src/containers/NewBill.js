@@ -71,7 +71,7 @@ export default class NewBill {
      * otherwise we empty the entry and remove the 'hideErrorMessage' class
      * which will show the error message
      */
-    if (e.target.querySelector(`input[data-testid='expense-name']`).value.trim().length > 5) {
+    if (e.target.querySelector(`input[data-testid='expense-name']`).value.trim().length > 5 && document.getElementById('errorFileType').classList.contains('hideErrorMessage')) {
       document.getElementById('errorExpenseName').classList.add('hideErrorMessage');
 
       const bill = {
